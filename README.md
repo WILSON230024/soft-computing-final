@@ -13,11 +13,10 @@ The model workflow is illustrated below:
 
 ```mermaid
 flowchart LR
-    A[Instagram Post User Reactions Dataset] --> B[Train CNN Model]
-    C[Genetic Algorithm<br/>Hyperparameter Optimization] --> B
+    A[Instagram Post User Reactions Dataset] --> B[Train CNN Model & Genetic Algorithm<br/>Hyperparameter Optimization]
     B --> D[CNN Output]
     D --> E[Fuzzy Inference System]
-    E --> F[Final Sentiment Classification:<br/>Good / Normal / Bad]
+    E --> F[Final Sentiment Classification:<br/>Positive / Unknown / Negative]
 ```
 
 ## Group Profile
