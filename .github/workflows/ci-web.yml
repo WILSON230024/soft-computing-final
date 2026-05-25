@@ -28,6 +28,7 @@ jobs:
         with:
           node-version: '22.18'
           cache: 'pnpm'
+          cache-dependency-path: './web/pnpm-lock.yaml'
 
       - name: Install deps
         run: pnpm install
