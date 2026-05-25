@@ -2,7 +2,7 @@
 
 ## Project Description
 
-This project is about analyzing sentiment on Instagram posts based on user reactions. The system classifies reactions into three categories: good, normal, or bad.
+This project analyzes sentiment on Instagram-post reaction images. The system classifies each image into three categories based on the filename label and the trained model output: negative, neutral, or positive.
 
 The model workflow is illustrated below:
 
@@ -11,7 +11,7 @@ flowchart LR
     A[Instagram Post User Reactions Dataset] --> B[Train CNN Model & Genetic Algorithm<br/>Hyperparameter Optimization]
     B --> D[CNN Output]
     D --> E[Fuzzy Inference System]
-    E --> F[Final Sentiment Classification:<br/>Positive / Unknown / Negative]
+    E --> F[Final Sentiment Classification:<br/>Negative / Neutral / Positive]
 ```
 
 ## Group Profile
@@ -38,8 +38,20 @@ uv sync
 
 ## Run the Project
 
-To run the main program, use:
+This training workflow is notebook-based. Open the notebook below and run the cells in order:
 
 ```powershell
-uv run python main.py
+jupyter notebook notebook/main.ipynb
 ```
+
+If you prefer JupyterLab, you can also run:
+
+```powershell
+jupyter lab notebook/main.ipynb
+```
+
+The notebook expects dataset images inside `dataset/` and reads the class label from each filename suffix:
+
+- `*_neg.*` for `Negative`
+- `*_neutral.*` for `Neutral`
+- `*_pos.*` for `Positive`
