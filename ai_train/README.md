@@ -1,10 +1,5 @@
 # PACD Final Project
 
-## Identity
-
-- Name: Wilson Angelie Tan
-- NIM: 140810230024
-
 ## Project Description
 
 This project is about analyzing sentiment on Instagram posts based on user reactions. The system classifies reactions into three categories: good, normal, or bad.
