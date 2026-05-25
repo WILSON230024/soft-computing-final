@@ -3,14 +3,17 @@ run-name: CI for commit ${{ github.sha }} by @${{ github.actor }}
 
 on:
   pull_request:
-    branches: [main]
+    branches: ['**']
   push:
-    branches: [main]
+    branches: ['**']
 
 jobs:
   ci:
     name: Lint and Prettier Check
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./web
     steps:
       - name: Checkout branch
         uses: actions/checkout@v6

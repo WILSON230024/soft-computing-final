@@ -6,7 +6,7 @@
 version: 2
 updates:
   - package-ecosystem: 'npm'
-    directory: '/'
+    directory: '/web'
     schedule:
       interval: 'weekly'
     commit-message:
@@ -15,3 +15,13 @@ updates:
       separator: '-'
     labels:
       - 'pnpm dependencies'
+
+  - package-ecosystem: "uv"
+    directory: "/ai_train"
+    schedule:
+      interval: "weekly"
+
+  - package-ecosystem: "uv"
+    directory: "/ai_backend"
+    schedule:
+      interval: "weekly"
