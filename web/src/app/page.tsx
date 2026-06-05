@@ -7,21 +7,37 @@ import {
   UploadSection,
   WarningCard,
 } from '@/components/ui/engagement';
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 export default function Home() {
   const [file, setFile] = useState<File | null>(null);
   const [preview, setPreview] = useState<string | null>(null);
   const [result, setResult] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
+  const previewUrlRef = useRef<string | null>(null);
+
+  useEffect(() => {
+    return () => {
+      if (previewUrlRef.current) {
+        URL.revokeObjectURL(previewUrlRef.current);
+      }
+    };
+  }, []);
 
   function onFileChange(e: React.ChangeEvent<HTMLInputElement>) {
     const f = e.target.files && e.target.files[0];
     setResult(null);
-    if (f) {
+
+    if (previewUrlRef.current) {
+      URL.revokeObjectURL(previewUrlRef.current);
+      previewUrlRef.current = null;
+    }
+
+    if (f && f.type.startsWith('image/')) {
+      const objectUrl = URL.createObjectURL(f);
+      previewUrlRef.current = objectUrl;
       setFile(f);
-      const url = URL.createObjectURL(f);
-      setPreview(url);
+      setPreview(objectUrl);
     } else {
       setFile(null);
       setPreview(null);

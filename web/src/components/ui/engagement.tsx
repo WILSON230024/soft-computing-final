@@ -1,4 +1,5 @@
 import { Button } from '@/components/ui/button';
+import Image from 'next/image';
 
 export function WarningCard() {
   return (
@@ -69,9 +70,12 @@ export function PreviewPanel({ preview }: PreviewPanelProps) {
   return (
     <div className="rounded-3xl border border-white/10 bg-slate-950/70 p-5 shadow-lg shadow-slate-950/20">
       {preview ? (
-        <img
+        <Image
           src={preview}
-          alt="preview"
+          alt="Preview gambar yang dipilih"
+          width={1200}
+          height={900}
+          unoptimized
           className="max-h-96 w-full rounded-3xl object-contain"
         />
       ) : (
