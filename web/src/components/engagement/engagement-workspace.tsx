@@ -49,14 +49,14 @@ export function EngagementWorkspace() {
       previewUrlRef.current = objectUrl;
       setFile(selectedFile);
       setPreview(objectUrl);
-      e.target.value = '';
+      if ('value' in e.target) e.target.value = '';
       return;
     }
 
     setFile(null);
     setPreview(null);
-    setUploadError('Please choose a valid image file.');
-    e.target.value = '';
+    setUploadError('Pilih file gambar yang valid ya — JPG, PNG, WEBP, dll.');
+    if ('value' in e.target) e.target.value = '';
   }
 
   async function onProcess() {
@@ -87,7 +87,7 @@ export function EngagementWorkspace() {
         onProcess={onProcess}
       />
 
-      <div className="grid gap-6 lg:grid-cols-[minmax(0,2fr)_minmax(0,1fr)]">
+      <div className="grid gap-4 sm:grid-cols-2">
         <PreviewPanel preview={preview} />
         <ResultPanel result={result} />
       </div>

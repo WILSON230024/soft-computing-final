@@ -1,18 +1,18 @@
 export function PageHeader() {
   return (
-    <div className="space-y-2">
-      <p className="text-sm font-medium text-muted-foreground">
-        Engagement analysis demo
+    <div className="space-y-3 text-center">
+      <p className="ig-gradient-text text-[11px] font-bold uppercase tracking-[2.5px]">
+        AI Image Analysis
       </p>
-      <div className="space-y-1">
-        <h1 className="text-3xl font-semibold tracking-tight">
-          Image Engagement Assessment
-        </h1>
-        <p className="max-w-2xl text-sm text-muted-foreground sm:text-base">
-          Upload one image, review the preview, then run the process to see
-          whether engagement is estimated as positive, neutral, or negative.
-        </p>
-      </div>
+      <h1 className="text-4xl font-extrabold leading-tight tracking-tight text-foreground sm:text-5xl">
+        Cek <span className="ig-gradient-text">Engagement</span>
+        <br />
+        Foto Kamu
+      </h1>
+      <p className="mx-auto max-w-md text-sm leading-relaxed text-muted-foreground sm:text-base">
+        Upload foto, lihat hasilnya dalam hitungan detik. Kami menganalisis
+        potensi engagement gambarmu — seberapa kuat daya tariknya.
+      </p>
     </div>
   );
 }
