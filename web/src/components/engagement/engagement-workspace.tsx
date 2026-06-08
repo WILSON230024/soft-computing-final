@@ -1,18 +1,25 @@
 'use client';
 
-import { type ChangeEvent, useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
+import {
+  type EngagementAnalysisResult,
+  analyzeEngagementImage,
+} from './engagement-api';
 import { PreviewPanel } from './preview-panel';
 import { ResultPanel } from './result-panel';
 import { UploadSection } from './upload-section';
 
 const IMAGE_FILE_PATTERN = /\.(png|jpe?g|gif|webp|bmp|svg|avif|heic|heif)$/i;
+const DEFAULT_ANALYSIS_ERROR =
+  'AI engine gagal memproses gambar ini. Pastikan service FastAPI aktif lalu coba lagi.';
 
 export function EngagementWorkspace() {
   const [file, setFile] = useState<File | null>(null);
   const [preview, setPreview] = useState<string | null>(null);
-  const [result, setResult] = useState<string | null>(null);
+  const [result, setResult] = useState<EngagementAnalysisResult | null>(null);
   const [uploadError, setUploadError] = useState<string | null>(null);
+  const [analysisError, setAnalysisError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
   const previewUrlRef = useRef<string | null>(null);
 
@@ -24,10 +31,10 @@ export function EngagementWorkspace() {
     };
   }, []);
 
-  function onFileChange(e: ChangeEvent<HTMLInputElement>) {
-    const selectedFile = e.target.files?.[0];
+  function onFileSelect(selectedFile: File | null) {
     setResult(null);
     setUploadError(null);
+    setAnalysisError(null);
 
     if (previewUrlRef.current) {
       URL.revokeObjectURL(previewUrlRef.current);
@@ -49,14 +56,12 @@ export function EngagementWorkspace() {
       previewUrlRef.current = objectUrl;
       setFile(selectedFile);
       setPreview(objectUrl);
-      if ('value' in e.target) e.target.value = '';
       return;
     }
 
     setFile(null);
     setPreview(null);
     setUploadError('Pilih file gambar yang valid ya — JPG, PNG, WEBP, dll.');
-    if ('value' in e.target) e.target.value = '';
   }
 
   async function onProcess() {
@@ -64,32 +69,37 @@ export function EngagementWorkspace() {
 
     setLoading(true);
     setResult(null);
+    setAnalysisError(null);
 
-    await new Promise((resolve) => setTimeout(resolve, 900));
-
-    const name = file.name || '';
-    const score =
-      name.split('').reduce((sum, char) => sum + char.charCodeAt(0), 0) % 3;
-    const labels = ['Positive', 'Neutral', 'Negative'];
-
-    setResult(labels[score]);
-    setLoading(false);
+    try {
+      const analysisResult = await analyzeEngagementImage(file);
+      setResult(analysisResult);
+    } catch (error: unknown) {
+      console.error(error);
+      setAnalysisError(
+        error instanceof Error && error.message
+          ? error.message
+          : DEFAULT_ANALYSIS_ERROR,
+      );
+    } finally {
+      setLoading(false);
+    }
   }
 
   return (
     <>
       <UploadSection
         disabled={!file || loading}
-        error={uploadError}
-        fileName={file?.name ?? null}
+        error={uploadError ?? analysisError}
         loading={loading}
-        onFileChange={onFileChange}
+        onFileSelect={onFileSelect}
         onProcess={onProcess}
+        selectedFile={file}
       />
 
       <div className="grid gap-4 sm:grid-cols-2">
         <PreviewPanel preview={preview} />
-        <ResultPanel result={result} />
+        <ResultPanel loading={loading} result={result} />
       </div>
     </>
   );
